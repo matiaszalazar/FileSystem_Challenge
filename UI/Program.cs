@@ -20,7 +20,6 @@ namespace UI
                 {
                     var input = Console.ReadLine().Split(' ');
                     string command = input[0];
-                    string name = input[1];
 
                     switch (command)
                     {
@@ -31,7 +30,7 @@ namespace UI
                             }
                             else
                             {
-                                fileSystemManager.ChangeDirectory(name);
+                                fileSystemManager.ChangeDirectory(input[1]);
                             }
                             break;
 
@@ -42,7 +41,7 @@ namespace UI
                             }
                             else
                             {
-                                fileSystemManager.CreateFile(name);
+                                fileSystemManager.CreateFile(input[1]);
                             }
                             break;
 
@@ -57,7 +56,7 @@ namespace UI
                             }
                             else
                             {
-                                fileSystemManager.CreateDirectory(name);
+                                fileSystemManager.CreateDirectory(input[1]);
                             }
                             break;
 
