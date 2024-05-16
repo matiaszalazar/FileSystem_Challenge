@@ -14,6 +14,7 @@ namespace UI
             try
             {
                 FileSystemManager fileSystemManager = new FileSystemManager();
+                fileSystemManager.PrintWorkingDirectory();
 
                 while (true)
                 {
@@ -24,29 +25,51 @@ namespace UI
                     switch (command)
                     {
                         case "cd":
-                            fileSystemManager.ChangeDirectory(name);
+                            if (input.Length < 2)
+                            {
+                                Console.WriteLine("The entered directory is invalid, please use: cd <directory>");
+                            }
+                            else
+                            {
+                                fileSystemManager.ChangeDirectory(name);
+                            }
                             break;
 
                         case "touch":
-                            fileSystemManager.CreateFile(name);
+                            if (input.Length < 2)
+                            {
+                                Console.WriteLine("The entered file is invalid, please use: touch <file>");
+                            }
+                            else
+                            {
+                                fileSystemManager.CreateFile(name);
+                            }
                             break;
 
                         case "ls":
-                            fileSystemManager.ListFiles();
+                            fileSystemManager.ListChilds();
                             break;
 
                         case "mkdir":
-                            fileSystemManager.CreateDirectory(name);
+                            if (input.Length < 2)
+                            {
+                                Console.WriteLine("The entered directory is invalid, please use: mkdir <directory>");
+                            }
+                            else
+                            {
+                                fileSystemManager.CreateDirectory(name);
+                            }
                             break;
 
                         case "pwd":
-                            fileSystemManager.PrintWorkingDirectory();
+                            Console.WriteLine($"The current path is '{fileSystemManager.GetCurrentPath()}'");
                             break;
 
                         default:
                             Console.WriteLine("Invalid command");
                             break;
                     }
+                    fileSystemManager.PrintWorkingDirectory();
                 }
             }
             catch (Exception exception)
