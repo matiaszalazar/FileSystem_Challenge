@@ -14,8 +14,8 @@ namespace BLL
 
         public FileSystemManager()
         {
-            _rootDirectory.Parent = null;
             _rootDirectory = new Directory("root");
+            _rootDirectory.Parent = null;
             _currentDirectory = _rootDirectory;
         }
 
