@@ -18,6 +18,7 @@ namespace BE
         }
 
         public string Name { get; }
+        public Directory Parent { get; set; }
         public List<File> Files { get; }
         public List<Directory> Childs { get; }
     }
