@@ -10,6 +10,7 @@ namespace UI
     {
         static void Main(string[] args)
         {
+            Console.ReadLine();
         }
     }
 }
