@@ -9,14 +9,17 @@ namespace BLL
 {
     public class FileSystemManager
     {
+        private Stack<string> _path;
         private Directory _rootDirectory;
         private Directory _currentDirectory;
 
         public FileSystemManager()
         {
+            _path = new Stack<string>();
             _rootDirectory = new Directory("root");
             _rootDirectory.Parent = null;
             _currentDirectory = _rootDirectory;
+            _path.Push(_rootDirectory.Name);
         }
 
         public void ChangeDirectory(string directoryName)
@@ -26,6 +29,7 @@ namespace BLL
                 if (_currentDirectory != _rootDirectory)
                 {
                     _currentDirectory = _currentDirectory.Parent;
+                    _path.Pop();
                 }
                 else
                 {
@@ -38,6 +42,7 @@ namespace BLL
                 if (newDirectory != null)
                 {
                     _currentDirectory = newDirectory;
+                    _path.Push($"\\{_currentDirectory.Name}");
                 }
                 else
                 {
@@ -48,11 +53,17 @@ namespace BLL
 
         public void CreateFile(string fileName)
         {
-            File newFile = new File(fileName);
-            _currentDirectory.Files.Add(newFile);
+            if (_currentDirectory.GetType() == typeof(Directory))
+            {
+                _currentDirectory.Files.Add(new File(fileName));
+            }
+            else
+            {
+                Console.WriteLine($"Files can't be created in files");
+            }
         }
 
-        public void ListFiles()
+        public void ListChilds()
         {
             List<string> directoryChilds = new List<string>();
             directoryChilds = _currentDirectory.Childs.Select(c => c.Name).Union(_currentDirectory.Files.Select(f => f.Name)).ToList();
@@ -61,13 +72,26 @@ namespace BLL
 
         public void CreateDirectory(string directoryName)
         {
-            Directory newDirectory = new Directory(directoryName);
-            _currentDirectory.Childs.Add(newDirectory);
+            if (_currentDirectory.GetType() == typeof(Directory))
+            {
+                Directory newDirectory = new Directory(directoryName);
+                _currentDirectory.Childs.Add(newDirectory);
+            }
+            else
+            {
+                Console.WriteLine($"Directories can't be created in files");
+            }
         }
 
         public void PrintWorkingDirectory()
         {
-            Console.WriteLine($"{_currentDirectory.Name}");
+            Console.Write($"{string.Join("", _path.Reverse())}> ");
+        }
+
+        public string GetCurrentPath()
+        {
+            string currentPath = string.Join("", _path.Reverse());
+            return currentPath;
         }
     }
 }
